@@ -1,0 +1,116 @@
+#include<stdio.h>
+void massiv(int *N, int *M,int A[100][100]) {
+	printf("N: ");
+	scanf_s("%d", N);
+	printf("M: ");
+	scanf_s("%d", M);
+	for (int i = 0; i < *N; i++) {
+		for (int j = 0; j < *M; j++) {
+			scanf_s("%d", &A[i][j]);
+		}
+	}
+}
+int picture(int N, int M,int A[100][100],int massiv_sum[100],int *t) {
+	int sum = 0;
+	int sum1 = 0;
+	int sum2 = 0;
+	int sum3 = 0;
+	int sum4 = 0;
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < M; j++) {
+			int ii = i;
+			int jj = j;
+			while ((0<=ii)&&(ii < N)){ //вниз
+					if ((99 < A[ii][jj])&&(A[ii][jj] < 1000)) {
+						sum1 = sum1 + A[ii][jj];
+						ii++;
+					}
+					break;
+			}
+			//ii = i-1;
+			//jj = j+1;
+			  //вправо
+				while ((0<=ii)&&(jj < M)) {
+					if ((99 < A[ii][jj])&&(A[ii][jj] < 1000)) {
+						sum2 = sum2 + A[ii][jj];
+						ii--;
+						jj++;
+					}
+					break;
+				}
+			
+			//ii = i-1;
+			//jj = j-1;
+			 //влево вверх
+				while ((0<=ii)&&(jj >=0)) {
+					if ((99 < A[ii][jj]) && (A[ii][jj] < 1000)) {
+						sum3 = sum3 + A[ii][jj];
+						ii--;
+						jj--;
+					}
+					break;
+				}
+			
+			//ii = i+1;
+			//jj = j-1;
+			  //влево вниз
+				while ((0<=jj)&&(ii < N)) {
+					if ((99 < A[ii][jj]) && (A[ii][jj] < 1000)) {
+						sum4 = sum4 + A[ii][jj];
+						ii++;
+						jj--;
+					}
+					break;
+				}
+				sum = sum1 + sum2 + sum3 + sum4;
+				massiv_sum[*t] = sum;
+				(*t)++;
+				sum = 0;
+				sum1 = 0;
+				sum2 = 0;
+				sum3 = 0;
+				sum4 = 0;
+			
+		}
+		
+	}
+
+}	
+
+void header_tabl() {
+	for (int i = 0; i < 35; i++) {
+		printf("%c", 196);
+	}
+	printf("\n");
+	printf("%c   N   %c   i   %c   j   %c  Result  %c\n", 179, 179, 179, 179, 179);
+	for (int i = 0; i < 35; i++) {
+		printf("%c", 196);
+	}
+	printf("\n");
+}
+void body_tabl(int N, int M, int sum[100]) {
+	int i = 0;
+	int j = 0;
+	int Number = 1;
+		for (i=0; i < N; i++) {
+			for (j=0; j < M; j++) {
+				printf("|  %3d  |  %3d  |  %3d  |  %3d  |", Number, i, j, sum[(Number - 1)]);
+				printf("\n");
+				Number++;
+			}
+		}
+
+	
+}
+
+int main(){
+	int N;
+	int M;
+	int A[100][100];
+	int massiv_sum[100];
+	int t=0;
+	massiv(&N, &M, A);
+	picture(N, M, A, massiv_sum,&t);
+	header_tabl();
+	body_tabl(N,M, massiv_sum,&t);
+}
